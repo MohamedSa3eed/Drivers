@@ -25,7 +25,7 @@ u8 KPD_GetPressedKey(void)
 					Local_PressedKey = Local_KPDArr[row_index][col_index] ;  //pressed value
 
 					// busy waiting until switch is released     human takes 250ms to press the switch
-					while (value == HIGH )
+					while (value == LOW )
 					{
 						value =  DIO_GetPinValue(KPD_PORT, Local_RowPinsArr[row_index]);   //refreshing the value
 					}
