@@ -19,4 +19,11 @@
 #define  RCC_BDCR         *((volatile u32*)0x40021020)
 #define  RCC_CRR          *((volatile u32*)0x40021024)
 
+
+//Clock Types
+#define  RCC_HSE_CRYSTAL  1 
+#define  RCC_HSE_RC       2 
+#define  RCC_HSI          3 
+#define  RCC_PLL          4
+
 #endif // !RCC_PRIVATE_H
