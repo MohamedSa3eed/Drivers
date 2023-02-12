@@ -20,55 +20,55 @@ void GPIO_voidSetPinDirection(u8 copy_u8Port, u8 copy_u8Pin, u8 copy_u8Mode)
                   if (copy_u8Pin < 8 )
                   {
                       GPIOA_CRL &= ~ ((0b1111) << (copy_u8Pin *4 ));
-                      GPIOA_CRL |= ~ ((copy_u8Mode) << (copy_u8Pin *4 ));
+                      GPIOA_CRL |=   ((copy_u8Mode) << (copy_u8Pin *4 ));
                   }
                   else if (copy_u8Pin <16) 
                   {
                       copy_u8Pin -= 8 ;
                       GPIOA_CRH &= ~ ((0b1111) << (copy_u8Pin *4 ));
-                      GPIOA_CRH |= ~ ((copy_u8Mode) << (copy_u8Pin *4 ));
+                      GPIOA_CRH |=   ((copy_u8Mode) << (copy_u8Pin *4 ));
                   }
                   else 
                   {
-                      #error ("Wrong Pin\n")
+                      /*#error ("Wrong Pin\n")*/
                   }
                   break;
     case GPIOB :
                   if (copy_u8Pin < 8 )
                   {
                       GPIOB_CRL &= ~ ((0b1111) << (copy_u8Pin *4 ));
-                      GPIOB_CRL |= ~ ((copy_u8Mode) << (copy_u8Pin *4 ));
+                      GPIOB_CRL |=   ((copy_u8Mode) << (copy_u8Pin *4 ));
                   }
                   else if (copy_u8Pin <16) 
                   {
                       copy_u8Pin -= 8 ;
                       GPIOB_CRH &= ~ ((0b1111) << (copy_u8Pin *4 ));
-                      GPIOB_CRH |= ~ ((copy_u8Mode) << (copy_u8Pin *4 ));
+                      GPIOB_CRH |=   ((copy_u8Mode) << (copy_u8Pin *4 ));
                   }
                   else 
                   {
-                      #error ("Wrong Pin\n")
+                      /*#error ("Wrong Pin\n")*/
                   }
                   break;
     case GPIOC :
                   if (copy_u8Pin < 8 )
                   {
                       GPIOC_CRL &= ~ ((0b1111) << (copy_u8Pin *4 ));
-                      GPIOC_CRL |= ~ ((copy_u8Mode) << (copy_u8Pin *4 ));
+                      GPIOC_CRL |=   ((copy_u8Mode) << (copy_u8Pin *4 ));
                   }
                   else if (copy_u8Pin <16) 
                   {
                       copy_u8Pin -= 8 ;
                       GPIOC_CRH &= ~ ((0b1111) << (copy_u8Pin *4 ));
-                      GPIOC_CRH |= ~ ((copy_u8Mode) << (copy_u8Pin *4 ));
+                      GPIOC_CRH |=   ((copy_u8Mode) << (copy_u8Pin *4 ));
                   }
                   else 
                   {
-                      #error ("Wrong Pin\n")
+                      /*#error ("Wrong Pin\n")*/
                   }
                   break;
     default    : 
-                  #error ("Wrong Port\n")
+                  /*#error ("Wrong Port\n")*/
                   break;
   }
 }
@@ -88,7 +88,7 @@ void GPIO_voidSetPinValue(u8 copy_u8Port, u8 copy_u8Pin, u8 copy_u8Value)
                   }
                   else 
                   {
-                      #error ("Wrong Value\n")
+                      /*#error ("Wrong Value\n")*/
                   }
                   break;
     case GPIOB :
@@ -102,7 +102,7 @@ void GPIO_voidSetPinValue(u8 copy_u8Port, u8 copy_u8Pin, u8 copy_u8Value)
                   }
                   else 
                   {
-                      #error ("Wrong Value\n")
+                      /*#error ("Wrong Value\n")*/
                   }
                   break;
     case GPIOC :
@@ -116,11 +116,11 @@ void GPIO_voidSetPinValue(u8 copy_u8Port, u8 copy_u8Pin, u8 copy_u8Value)
                   }
                   else 
                   {
-                      #error ("Wrong Value\n")
+                      /*#error ("Wrong Value\n")*/
                   }
                   break;
     default    : 
-                  #error ("Wrong Port\n")
+                  /*#error ("Wrong Port\n")*/
                   break;
   }
 }
@@ -140,7 +140,7 @@ u8   GPIO_u8GetPinValue(u8 copy_u8Port , u8 copy_u8Pin)
                   local_u8Value = GET_BIT(GPIOC_IDR , copy_u8Pin);
                   break;
     default    : 
-                  #error ("Wrong Port\n")
+                  /*#error ("Wrong Port\n")*/
                   break;
   }
     return local_u8Value;
