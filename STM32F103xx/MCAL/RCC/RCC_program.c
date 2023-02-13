@@ -37,35 +37,35 @@ void RCC_voidInitSysClock(void)
 
 void RCC_voidEnableClock(u8 Copy_u8Bus , u8 Copy_u8Periphral)
 {
-  if (Copy_u8Bus <= 31) 
+  if (Copy_u8Periphral <= 31) 
   {
-    switch (Copy_u8Periphral) 
+    switch (Copy_u8Bus) 
     {
       case   RCC_AHB  :   SET_BIT(RCC_AHBENR, Copy_u8Periphral);   break;
       case   RCC_APB1 :   SET_BIT(RCC_APB1ENR, Copy_u8Periphral);  break;
       case   RCC_APB2 :   SET_BIT(RCC_APB2ENR, Copy_u8Periphral);  break;
-      default         :   #error ("Bus not found\n")               break; 
+      default         :   /*#error ("Bus not found\n")*/               break; 
     }
   }
   else 
   {
-    #error ("Periphral not found\n")
+    /*#error ("Periphral not found\n")*/
   }
 }
 void RCC_voidDisableClock(u8 Copy_u8Bus , u8 Copy_u8Periphral)
 {
-  if (Copy_u8Bus <= 31) 
+  if (Copy_u8Periphral <= 31) 
   {
-    switch (Copy_u8Periphral) 
+    switch (Copy_u8Bus) 
     {
       case   RCC_AHB  :   CLR_BIT(RCC_AHBENR, Copy_u8Periphral);   break;
       case   RCC_APB1 :   CLR_BIT(RCC_APB1ENR, Copy_u8Periphral);  break;
       case   RCC_APB2 :   CLR_BIT(RCC_APB2ENR, Copy_u8Periphral);  break;
-      default         :   #error ("Bus not found\n")               break; 
+      default         :   /*#error ("Bus not found\n")*/               break; 
     }
   }
   else 
   {
-    #error ("Periphral not found\n")
+    /*#error ("Periphral not found\n")*/
   }
 }

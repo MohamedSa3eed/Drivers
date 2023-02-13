@@ -17,7 +17,7 @@
 #define  RCC_APB2ENR      *((volatile u32*)0x40021018)
 #define  RCC_APB1ENR      *((volatile u32*)0x4002101c)
 #define  RCC_BDCR         *((volatile u32*)0x40021020)
-#define  RCC_CRR          *((volatile u32*)0x40021024)
+#define  RCC_CSR          *((volatile u32*)0x40021024)
 
 
 //Clock Types
