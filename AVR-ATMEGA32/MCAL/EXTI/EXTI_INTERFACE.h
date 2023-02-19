@@ -1,4 +1,3 @@
-#include "../../LIB/STD_TYPES.h"
 #ifndef EXTI_INTERFACE_H
 #define EXTI_INTERFACE_H
 
@@ -24,4 +23,5 @@ void EXTI_CallBackFunction(void (*fun)(void) ,u8 INT_Num );
 void EXTI_SetTrigger(u8 Trigger);
 
 void EXTI_Disable_INT(u8 INT_Num);
+
 #endif

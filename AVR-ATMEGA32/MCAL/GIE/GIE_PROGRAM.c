@@ -6,10 +6,10 @@
 
 void GIE_Enable()
 {
-       SET_BIT(SREG, SREG_EN);
+    SET_BIT(SREG, SREG_EN);
 }
 
 void GIE_Disable()
 {
-	CLR_BIT(SREG, SREG_EN);
+	  CLR_BIT(SREG, SREG_EN);
 }

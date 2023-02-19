@@ -9,10 +9,10 @@
 #if CONNECTION == _8_PINS
 void LCD_Init(void)
 {
-	DIO_SetPinDiriction(GPORT,RS,OUTPUT);
-	DIO_SetPinDiriction(GPORT,EN,OUTPUT);
-	DIO_SetPinDiriction(GPORT,RW,OUTPUT);
-	DIO_SetPortDiriction(LCD_PORT,PORT_OUTPUT); //all high
+	DIO_SetPinDirection(GPORT,RS,OUTPUT);
+	DIO_SetPinDirection(GPORT,EN,OUTPUT);
+	DIO_SetPinDirection(GPORT,RW,OUTPUT);
+	DIO_SetPortDirection(LCD_PORT,PORT_OUTPUT); //all high
 	_delay_ms(100);  //delay from data sheet
 	LCD_WriteCommand(function_set_2Lines);
 	_delay_ms(1);
@@ -47,10 +47,10 @@ void LCD_WriteData(u8 Data)
  u8 init_flag = 0;
 void LCD_Init(void)
 {
-	DIO_SetPinDiriction(GPORT,RS,OUTPUT);
-	DIO_SetPinDiriction(GPORT,RW,OUTPUT);
-	DIO_SetPinDiriction(GPORT,EN,OUTPUT);
-	DIO_SetPortDiriction(LCD_PORT,LAST_4OUTPUT);
+	DIO_SetPinDirection(GPORT,RS,OUTPUT);
+	DIO_SetPinDirection(GPORT,RW,OUTPUT);
+	DIO_SetPinDirection(GPORT,EN,OUTPUT);
+	DIO_SetPortDirection(LCD_PORT,LAST_4OUTPUT);
 	_delay_ms(100);
 	LCD_WriteCommand(function_set);
 	LCD_WriteCommand(function_set);
@@ -173,13 +173,13 @@ void LCD_WriteDigits(s32 Number)
 	}
 
 }
-void LCD_WriteSpecial(u8 * Special_Character,u8 CGROM_Index,u8 X_Pos ,u8 Y_Pos )
+void LCD_WriteSpecial(u8 * Special_Character,u8 CGRAM_Index,u8 X_Pos ,u8 Y_Pos )
 {
 	LCD_GoToXY(X_Pos, Y_Pos);
-	LCD_WriteData(CGROM_Index);
-	u8 Local_Adress= CGROM_Index*8  ;
+	LCD_WriteData(CGRAM_Index);
+	u8 Local_Adress= CGRAM_Index*8  ;
         SET_BIT(Local_Adress,6); //from data sheet
-	LCD_WriteCommand(Local_Adress); //start writting in CGROM
+	LCD_WriteCommand(Local_Adress); //start writting in CGRAM
 	for (u8 Local_Index = 0; Local_Index < 8; Local_Index++) {
 		LCD_WriteData(Special_Character[Local_Index]);
 	}

@@ -23,7 +23,7 @@ enum PIN
  PIN7 = 7
 };
 
-enum DIRICTION 
+enum DIRECTION 
 {
  INPUT  = 0 ,
  OUTPUT = 1
@@ -41,18 +41,18 @@ enum PORT_VALUE
 	PORT_HIGH = 0xFF ,
 	LAST_4HIGH = 0xf0
 };
-enum PORT_DIRICTION
+enum PORT_DIRECTION
 {
 	PORT_INPUT  = 0 ,
 	PORT_OUTPUT = 0xff , 
 	LAST_4OUTPUT = 0xf0
 };
 
-void DIO_SetPinDiriction( u8 Port , u8 Pin , u8 Diriction);
+void DIO_SetPinDirection( u8 Port , u8 Pin , u8 Direction);
 void DIO_SetPinValue    ( u8 Port , u8 Pin ,u8 Value);
 u8   DIO_GetPinValue    ( u8 Port , u8 Pin);
 
-void DIO_SetPortDiriction (u8 Port , u8 Diriction );
+void DIO_SetPortDirection (u8 Port , u8 Direction );
 void DIO_SetPortValue     (u8 Port , u8 Value);
 u8   DIO_GetPortValue     (u8 Port);
 

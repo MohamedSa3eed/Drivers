@@ -3,46 +3,46 @@
 #include "DIO_PRIVATE.h"
 #include "DIO_INTERFACE.h"
 
-void DIO_SetPinDiriction(u8 Port ,u8 Pin ,u8 Diriction)
+void DIO_SetPinDirection(u8 Port ,u8 Pin ,u8 Direction)
 {
 	switch (Port)
 	{
 	case PORTA :
-		if (Diriction == INPUT)
+		if (Direction == INPUT)
 		{
 			CLR_BIT(DDRA_REG , Pin);
 		}
-		else if (Diriction == OUTPUT)
+		else if (Direction == OUTPUT)
 		{
 			SET_BIT(DDRA_REG , Pin);
 		}
 		break;
 	case PORTB :
-		if (Diriction == INPUT)
+		if (Direction == INPUT)
 		{
 			CLR_BIT(DDRB_REG , Pin );
 		}
-		else if (Diriction == OUTPUT)
+		else if (Direction == OUTPUT)
 		{
 			SET_BIT(DDRB_REG , Pin);
 		}
 		break;
 	case PORTC :
-		if (Diriction == INPUT)
+		if (Direction == INPUT)
 		{
 			CLR_BIT(DDRC_REG , Pin );
 		}
-		else if (Diriction == OUTPUT)
+		else if (Direction == OUTPUT)
 		{
 			SET_BIT(DDRC_REG , Pin);
 		}
 		break;
 	case PORTD :
-		if (Diriction == INPUT)
+		if (Direction == INPUT)
 		{
 			CLR_BIT(DDRD_REG , Pin );
 		}
-		else if (Diriction == OUTPUT)
+		else if (Direction == OUTPUT)
 		{
 			SET_BIT(DDRD_REG , Pin);
 		}
@@ -115,21 +115,21 @@ u8 DIO_GetPinValue(u8 Port,u8 Pin)
 	}
 }
 
-void DIO_SetPortDiriction (u8 Port , u8 Diriction)
+void DIO_SetPortDirection (u8 Port , u8 Direction)
 {
 	switch (Port)
 	{
 	case PORTA : 
-		DDRA_REG = Diriction ;
+		DDRA_REG = Direction ;
 		break;
 	case PORTB : 
-		DDRB_REG = Diriction ;
+		DDRB_REG = Direction ;
 		break;
 	case PORTC : 
-		DDRC_REG = Diriction ;
+		DDRC_REG = Direction ;
 		break;
 	case PORTD : 
-		DDRD_REG = Diriction ;
+		DDRD_REG = Direction ;
 		break;
 	default:
 		break;

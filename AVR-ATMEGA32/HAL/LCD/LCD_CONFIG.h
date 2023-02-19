@@ -13,9 +13,9 @@
 #define RW PIN3 //GPORT
 #define LCD_PORT PORTA
 
+
+
  //commands to write in LCD 
-
-
 
 #define dispaly_on              0x0f
 #define dispaly_off             0x08

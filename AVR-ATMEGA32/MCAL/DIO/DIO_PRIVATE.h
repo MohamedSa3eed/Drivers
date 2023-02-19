@@ -1,7 +1,6 @@
 #ifndef DIO_PRIVATE_H
 #define DIO_PRIVATE_H 
 
-#include "../../LIB/STD_TYPES.h"
 #define PORTA_REG *((u8 *)0x3B)
 #define DDRA_REG  *((u8 *)0x3A)
 #define PINA_REG  *((u8 *)0x39)
