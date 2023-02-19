@@ -4,6 +4,24 @@
 #include "KPD_CONFIG.h"
 #include "KPD_PRIVATE.h"
 
+void KPD_Init(void)
+{
+  //initialize columns
+  DIO_SetPinDirection(KPD_PORT, KPD_COLUMN0_PIN , HIGH);
+  DIO_SetPinDirection(KPD_PORT, KPD_COLUMN1_PIN , HIGH);
+  DIO_SetPinDirection(KPD_PORT, KPD_COLUMN2_PIN , HIGH);
+  DIO_SetPinDirection(KPD_PORT, KPD_COLUMN3_PIN , HIGH);
+
+  //initialize rows
+  DIO_SetPinDirection(KPD_PORT, KPD_ROW0_PIN , INPUT);
+  DIO_SetPinDirection(KPD_PORT, KPD_ROW1_PIN , INPUT);
+  DIO_SetPinDirection(KPD_PORT, KPD_ROW2_PIN , INPUT);
+  DIO_SetPinDirection(KPD_PORT, KPD_ROW3_PIN , INPUT);
+
+  //make all pins high 
+  DIO_SetPortDirection(KPD_PORT, PORT_HIGH);
+}
+
 u8 KPD_GetPressedKey(void)
 {
 		u8 Local_PressedKey = KPD_NOT_PRESSED ; //indication value for not pressing
