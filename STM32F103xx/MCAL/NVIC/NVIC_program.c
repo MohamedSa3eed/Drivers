@@ -120,9 +120,10 @@ void NVIC_voidSetPriority(s8 copy_s8IntNumber ,u32 copy_u32PriorityMode , u8 cop
   SCB_AIRCR = copy_u32PriorityMode ;
   u8 local_u8Priority = copy_u8SubPriority | (copy_u8GroupPriority << (copy_u32PriorityMode - 0x05fa0300)/0x100);
   //core peripherals
+  //TODO
 
   //external peripherals 
-  if (copy_s8IntNumber >= 0)
+  if (copy_s8IntNumber >= 0 && copy_s8IntNumber <60)
   {
     NVIC_IPR[copy_s8IntNumber] = local_u8Priority << 4 ;
   }
