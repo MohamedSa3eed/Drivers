@@ -17,13 +17,13 @@ u8 NVIC_u8EnableInterrupt (u8 copy_u8IntNumber)
   u8 state ;
   if (copy_u8IntNumber <=31) 
   {
-    NVIC_ISER0 = (1 >> copy_u8IntNumber);
+    NVIC_ISER0 = (1 << copy_u8IntNumber);
     state = 0;
   }
   else if (copy_u8IntNumber <=59)
   {
     copy_u8IntNumber -= 8;
-    NVIC_ISER1 = (1 >> copy_u8IntNumber);
+    NVIC_ISER1 = (1 << copy_u8IntNumber);
     state = 0;
   }
   else
@@ -38,13 +38,13 @@ u8 NVIC_u8DisableInterrupt (u8 copy_u8IntNumber)
   u8 state ;
   if (copy_u8IntNumber <=31) 
   {
-    NVIC_ICER0 = (1 >> copy_u8IntNumber);
+    NVIC_ICER0 = (1 << copy_u8IntNumber);
     state = 0;
   }
   else if (copy_u8IntNumber <=59)
   {
     copy_u8IntNumber -= 8;
-    NVIC_ICER1 = (1 >> copy_u8IntNumber);
+    NVIC_ICER1 = (1 << copy_u8IntNumber);
     state = 0;
   }
   else
@@ -59,13 +59,13 @@ u8 NVIC_SetPendingFlag (u8 copy_u8IntNumber)
   u8 state ;
   if (copy_u8IntNumber <=31) 
   {
-    NVIC_ISPR0 = (1 >> copy_u8IntNumber);
+    NVIC_ISPR0 = (1 << copy_u8IntNumber);
     state = 0;
   }
   else if (copy_u8IntNumber <=59)
   {
     copy_u8IntNumber -= 8;
-    NVIC_ISPR1 = (1 >> copy_u8IntNumber);
+    NVIC_ISPR1 = (1 << copy_u8IntNumber);
     state = 0;
   }
   else
@@ -80,13 +80,13 @@ u8 NVIC_ClearPendingFlag (u8 copy_u8IntNumber)
   u8 state ;
   if (copy_u8IntNumber <=31) 
   {
-    NVIC_ICPR0 = (1 >> copy_u8IntNumber);
+    NVIC_ICPR0 = (1 << copy_u8IntNumber);
     state = 0;
   }
   else if (copy_u8IntNumber <=59)
   {
     copy_u8IntNumber -= 8;
-    NVIC_ICPR1 = (1 >> copy_u8IntNumber);
+    NVIC_ICPR1 = (1 << copy_u8IntNumber);
     state = 0;
   }
   else
