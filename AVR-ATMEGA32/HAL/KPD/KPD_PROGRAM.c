@@ -19,7 +19,7 @@ void KPD_Init(void)
   DIO_SetPinDirection(KPD_PORT, KPD_ROW3_PIN , INPUT);
 
   //make all pins high 
-  DIO_SetPortDirection(KPD_PORT, PORT_HIGH);
+  DIO_SetPortValue(KPD_PORT, PORT_HIGH);
 }
 
 u8 KPD_GetPressedKey(void)
