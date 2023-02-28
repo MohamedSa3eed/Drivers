@@ -8,6 +8,11 @@
 #ifndef STK_CONFIG_H
 #define STK_CONFIG_H
 
-
+/*
+* options : 
+*           0- AHB_8
+*           1- AHB 
+*/
+#define         STK_CLK_SOURCE       AHB_8
 
 #endif // !STK_CONFIG_H
