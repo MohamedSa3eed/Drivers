@@ -12,7 +12,7 @@
 #include "STK_private.h"
 #include "STK_config.h"
 
-// pointer fot callback
+// pointer for callback
 static void (*STK_static_global_ptr) (void)  =  NULL ;
 
 // variable for interval mode
@@ -29,13 +29,14 @@ void STK_voidInit(void)
 
 void STK_voidBusyWait(u32 copy_u32Ticks)
 {
-  //load value int tier 
+  //load value into timer 
   STK->LOAD = copy_u32Ticks ;
   STK->VAL  = 0 ;
 
   //start timer 
   SET_BIT(STK->CTRL,STK_CTRL_ENABLE);
-  //wait till falg is raised
+
+  //wait till flag is raised
   while (GET_BIT(STK->CTRL, STK_CTRL_COUNT_FLAG) == 0 ) 
    ;
   //stop timer
@@ -52,7 +53,10 @@ void STK_voidSetIntervalSingle(u32 copy_u32Ticks , void (*copy_ptr)(void))
 
   //load value into timer
   STK->LOAD = copy_u32Ticks ;
-
+  
+  // start timer
+  SET_BIT(STK->CTRL,STK_CTRL_ENABLE);
+  
   // set interval mode 
   STK_u8IntervalMode = STK_SINGLE_INTERVAL ;
   
@@ -71,6 +75,9 @@ void STK_voidSetIntervalperiodic(u32 copy_u32Ticks , void (*copy_ptr)(void))
 
   //load value into timer
   STK->LOAD = copy_u32Ticks ;
+
+  // start timer
+  SET_BIT(STK->CTRL,STK_CTRL_ENABLE);
 
   // set interval mode 
   STK_u8IntervalMode = STK_PERIODIC_INTERVAL ;
@@ -118,7 +125,7 @@ void SysTick_Handler(void)
 		STK -> VAL  = 0;
 	}
 
-  //execute teh callback
+  //execute the callback
   STK_static_global_ptr();
 
   // clearing the flag (by reading it)
