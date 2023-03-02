@@ -1,8 +1,8 @@
 /************************************************************************/
 /* Author       :  Mohamed Saeed                                        */
 /* E-Mail       :  mohamed.sa3ed.faried@gmail.com                       */
-/* Date         :  17 FEB 2023                                          */
-/* Version      :  V01                                                  */
+/* Date         :  1  MAR 2023                                          */
+/* Version      :  V02                                                  */
 /************************************************************************/
 
 #ifndef EXTI_PRIVATE_H
