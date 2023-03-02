@@ -12,7 +12,7 @@
 #include "AFIO_private.h"
 #include "AFIO_config.h"
 
-void AFIO_voidSetLineConfig(u8 copy_u8Line , u8 copy_u8Config)
+void AFIO_voidSetEXTILineConfig(u8 copy_u8Line , u8 copy_u8Config)
 {
   u8 local_u8RegIndex ;
   if (copy_u8Line < 4)
