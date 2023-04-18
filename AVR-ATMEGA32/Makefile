@@ -5,8 +5,10 @@ OBJ=$(SRC:.c=.o)
 CC=avr-gcc
 LINKER=avr-objcopy
 FLASHER=avrdude
+MCU=atmega32
+FRQ=8000000UL
 # use gdwarf-2 in case of protues
-CFLAGS=-mmcu=atmega32 -O0 -DF_CPU=8000000UL -Wall -gdwarf-2 -c -o $(OBJ) $(SRC)  
+CFLAGS=-mmcu=MCU -O0 -DF_CPU=FRQ -Wall -gdwarf-2 -c -o $(OBJ) $(SRC)  
 LFLAGS=-j .text -j .data -O ihex $(OBJ) $(PROJECT_NAME).hex 
 FFLAGS=-c usbasp -p m32 -B 0.5 -U Flash:w:${PROJECT_NAME}.hex:a 
 
