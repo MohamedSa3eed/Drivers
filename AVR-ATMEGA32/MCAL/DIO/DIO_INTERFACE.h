@@ -39,22 +39,158 @@ enum PORT_VALUE
 {
 	PORT_LOW  = 0 ,
 	PORT_HIGH = 0xFF ,
-	LAST_4HIGH = 0xf0
+	LAST_4HIGH = 0xf0 ,
+	FIRIST_4HIGH = 0x0f
 };
 
 enum PORT_DIRECTION
 {
 	PORT_INPUT  = 0 ,
 	PORT_OUTPUT = 0xff , 
-	LAST_4OUTPUT = 0xf0
+	LAST_4OUTPUT = 0xf0 ,
+	FIRIST_4OUTPUT = 0x0f
 };
 
-void DIO_SetPinDirection( u8 Port , u8 Pin , u8 Direction);
-void DIO_SetPinValue    ( u8 Port , u8 Pin ,u8 Value);
-u8   DIO_GetPinValue    ( u8 Port , u8 Pin);
+/**
+ * @brief Sets the direction of a specific pin in a given port.
+ *
+ * This function is used to set the direction (input or output) of a specific pin
+ * in a specified port of a microcontroller.
+ *
+ * @param Copy_u8Port: The port to which the pin belongs. It can be one of the following values:
+ *                     - PORTA
+ *                     - PORTB
+ *                     - PORTC
+ *                     - PORTD
+ * @param Copy_u8Pin: The pin number whose direction will be set. It can be a value from PIN0 to PIN7.
+ * @param Copy_u8Direction: The desired direction for the pin. It can be one of the following values:
+ *                          - INPUT: Set the pin as an input.
+ *                          - OUTPUT: Set the pin as an output.
+ *
+ * @return ES_t: An enumeration of type ES_t representing the error state of the function.
+ *               - ES_OK: The function executed successfully.
+ *               - ES_OUT_OF_RANGE: The provided port or direction is out of range.
+ *               - ES_NOK: An unknown error occurred during execution.
+ */
+ES_t DIO_SetPinDirection(u8 Copy_u8Port, u8 Copy_u8Pin, u8 Copy_u8Direction);
 
-void DIO_SetPortDirection (u8 Port , u8 Direction );
-void DIO_SetPortValue     (u8 Port , u8 Value);
-u8   DIO_GetPortValue     (u8 Port);
+/**
+ * @brief Sets the value of a specific pin in a given port.
+ *
+ * This function is used to set the value (logic level) of a specific pin in a specified
+ * port of a microcontroller.
+ *
+ * @param Copy_u8Port: The port to which the pin belongs. It can be one of the following values:
+ *                     - PORTA
+ *                     - PORTB
+ *                     - PORTC
+ *                     - PORTD
+ * @param Copy_u8Pin: The pin number whose value will be set. It can be a value from PIN0 to PIN7.
+ * @param Copy_u8Value: The desired value for the pin. It can be one of the following values:
+ *                      - LOW: Set the pin to logic low (0V).
+ *                      - FLOAT: Set the pin to floating state (disconnected from internal pull-up or pull-down resistors).
+ *                      - HIGH: Set the pin to logic high (Vcc).
+ *                      - PULL_UP: Set the pin to logic high (Vcc) and enable the internal pull-up resistor.
+ *
+ * @return ES_t: An enumeration of type ES_t representing the error state of the function.
+ *               - ES_OK: The function executed successfully.
+ *               - ES_OUT_OF_RANGE: The provided port or value is out of range.
+ *               - ES_NOK: An unknown error occurred during execution.
+ */
+ES_t  DIO_SetPinValue    ( u8 Copy_u8Port , u8 Copy_u8Pin ,u8 Copy_u8Value);
+
+/**
+ * @brief Retrieves the value of a specific pin in a given port.
+ *
+ * This function is used to retrieve the value (logic level) of a specific pin in a specified
+ * port of a microcontroller.
+ *
+ * @param Copy_u8Port: The port to which the pin belongs. It can be one of the following values:
+ *                     - PORTA
+ *                     - PORTB
+ *                     - PORTC
+ *                     - PORTD
+ * @param Copy_u8Pin: The pin number whose value will be retrieved. It can be a value from PIN0 to PIN7.
+ * @param Copy_pu8Value: Pointer to a variable where the retrieved pin value will be stored.
+ *                      The value can be one of the following:
+ *                      - 0: Logic low (0V).
+ *                      - 1: Logic high (Vcc).
+ *
+ * @return ES_t: An enumeration of type ES_t representing the error state of the function.
+ *               - ES_OK: The function executed successfully.
+ *               - ES_OUT_OF_RANGE: The provided port is out of range.
+ *               - ES_NULL_POINTER: The provided pointer is NULL.
+ *               - ES_NOK: An unknown error occurred during execution.
+ */
+ES_t  DIO_GetPinValue    ( u8 Copy_u8Port , u8 Copy_u8Pin ,u8 *Copy_pu8Value);
+
+/**
+ * @brief Sets the direction of all pins in a given port.
+ *
+ * This function is used to set the direction (input or output) of all pins in a specified
+ * port of a microcontroller.
+ *
+ * @param Copy_u8Port: The port for which the pins' direction will be set. It can be one of the following values:
+ *                     - PORTA
+ *                     - PORTB
+ *                     - PORTC
+ *                     - PORTD
+ * @param Copy_u8Direction: The desired direction for the port. It can be one of the following values from the PORT_DIRECTION enum:
+ *                          - PORT_INPUT: Set all pins in the port as inputs.
+ *                          - PORT_OUTPUT: Set all pins in the port as outputs.
+ *                          - LAST_4OUTPUT: Set the last 4 pins in the port as outputs and the rest as inputs.
+ *                          - FIRST_4OUTPUT: Set the first 4 pins in the port as outputs and the rest as inputs.
+ *
+ * @return ES_t: An enumeration of type ES_t representing the error state of the function.
+ *               - ES_OK: The function executed successfully.
+ *               - ES_OUT_OF_RANGE: The provided port or direction is out of range.
+ *               - ES_NOK: An unknown error occurred during execution.
+ */
+ES_t  DIO_SetPortDirection (u8 Copy_u8Port , u8 Copy_u8Direction );
+
+/**
+ * @brief Sets the value of a specific pin in a given port.
+ *
+ * This function is used to set the value (logic level) of a specific pin in a specified
+ * port of a microcontroller.
+ *
+ * @param Copy_u8Port: The port to which the pin belongs. It can be one of the following values:
+ *                     - PORTA
+ *                     - PORTB
+ *                     - PORTC
+ *                     - PORTD
+ * @param Copy_u8Value: The desired value for the pin. It can be one of the following values from the PORT_VALUE enum:
+ *                      - PORT_LOW: Set the pin to logic low (0V).
+ *                      - PORT_HIGH: Set the pin to logic high (Vcc).
+ *                      - LAST_4HIGH: Set the last 4 pins in the port to logic high and the rest to logic low.
+ *                      - FIRST_4HIGH: Set the first 4 pins in the port to logic high and the rest to logic low.
+ *
+ * @return ES_t: An enumeration of type ES_t representing the error state of the function.
+ *               - ES_OK: The function executed successfully.
+ *               - ES_OUT_OF_RANGE: The provided port or value is out of range.
+ *               - ES_NOK: An unknown error occurred during execution.
+ */
+ES_t  DIO_SetPortValue     (u8 Copy_u8Port , u8 Copy_u8Value);
+
+/**
+ * @brief Retrieves the value of all pins in a given port.
+ *
+ * This function is used to retrieve the value (logic level) of all pins in a specified
+ * port of a microcontroller.
+ *
+ * @param Copy_u8Port: The port from which the pin values will be retrieved. It can be one of the following values:
+ *                     - PORTA
+ *                     - PORTB
+ *                     - PORTC
+ *                     - PORTD
+ * @param Copy_pu8Value: Pointer to a variable where the retrieved port value will be stored.
+ *
+ * @return ES_t: An enumeration of type ES_t representing the error state of the function.
+ *               - ES_OK: The function executed successfully.
+ *               - ES_OUT_OF_RANGE: The provided port is out of range.
+ *               - ES_NULL_POINTER: The provided pointer is NULL.
+ *               - ES_NOK: An unknown error occurred during execution.
+ */
+ES_t  DIO_GetPortValue     (u8 Copy_u8Port , u8 *Copy_pu8Value);
 
 #endif 
