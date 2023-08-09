@@ -125,6 +125,27 @@ ES_t  DIO_SetPinValue    ( u8 Copy_u8Port , u8 Copy_u8Pin ,u8 Copy_u8Value);
 ES_t  DIO_GetPinValue    ( u8 Copy_u8Port , u8 Copy_u8Pin ,u8 *Copy_pu8Value);
 
 /**
+ * @brief Toggles the value of a specific pin in a given port.
+ *
+ * This function is used to toggle (invert) the value of a specific pin in a specified
+ * port of a microcontroller. If the pin was previously logic high, it will be set to logic low,
+ * and if it was previously logic low, it will be set to logic high.
+ *
+ * @param Copy_u8Port: The port to which the pin belongs. It can be one of the following values:
+ *                     - PORTA
+ *                     - PORTB
+ *                     - PORTC
+ *                     - PORTD
+ * @param Copy_u8Pin: The pin number to be toggled. It can be a value from PIN0 to PIN7.
+ *
+ * @return ES_t: An enumeration of type ES_t representing the error state of the function.
+ *               - ES_OK: The function executed successfully.
+ *               - ES_OUT_OF_RANGE: The provided port or pin number is out of range.
+ *               - ES_NOK: An unknown error occurred during execution.
+ */
+ES_t DIO_TogglePin(u8 Copy_u8Port, u8 Copy_u8Pin);
+
+/**
  * @brief Sets the direction of all pins in a given port.
  *
  * This function is used to set the direction (input or output) of all pins in a specified
@@ -192,5 +213,25 @@ ES_t  DIO_SetPortValue     (u8 Copy_u8Port , u8 Copy_u8Value);
  *               - ES_NOK: An unknown error occurred during execution.
  */
 ES_t  DIO_GetPortValue     (u8 Copy_u8Port , u8 *Copy_pu8Value);
+
+/**
+ * @brief Toggles the value of all pins in a given port.
+ *
+ * This function is used to toggle (invert) the value of all pins in a specified
+ * port of a microcontroller. If a pin was previously logic high, it will be set to logic low,
+ * and if it was previously logic low, it will be set to logic high.
+ *
+ * @param Copy_u8Port: The port for which the pins' values will be toggled. It can be one of the following values:
+ *                     - PORTA
+ *                     - PORTB
+ *                     - PORTC
+ *                     - PORTD
+ *
+ * @return ES_t: An enumeration of type ES_t representing the error state of the function.
+ *               - ES_OK: The function executed successfully.
+ *               - ES_OUT_OF_RANGE: The provided port is out of range.
+ *               - ES_NOK: An unknown error occurred during execution.
+ */
+ES_t DIO_TogglePort(u8 Copy_u8Port);
 
 #endif 
