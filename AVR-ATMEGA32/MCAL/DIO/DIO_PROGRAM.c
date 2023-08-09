@@ -1,7 +1,7 @@
 #include "../../LIB/STD_TYPES.h"
 #include "../../LIB/BIT_MATH.h" 
-#include "DIO_PRIVATE.h"
 #include "DIO_INTERFACE.h"
+#include "DIO_PRIVATE.h"
 
 void DIO_SetPinDirection(u8 Port ,u8 Pin ,u8 Direction)
 {
@@ -54,41 +54,41 @@ void DIO_SetPinValue(u8 Port ,u8 Pin ,u8 Value)
 	switch (Port)
 	{
 	case PORTA :
-		if (Value == LOW)
+		if (Value == LOW || Value == FLOAT)
 		{
 			CLR_BIT(PORTA_REG , Pin);
 		}
-		else if (Value == HIGH)
+		else if (Value == HIGH || Value == PULL_UP)
 		{
 			SET_BIT(PORTA_REG , Pin);
 		}
 		break;
 	case PORTB :
-		if (Value == LOW)
+		if (Value == LOW || Value == FLOAT)
 		{
 			CLR_BIT(PORTB_REG , Pin );
 		}
-		else if (Value == HIGH)
+		else if (Value == HIGH || Value == PULL_UP)
 		{
 			SET_BIT(PORTB_REG , Pin);
 		}
 		break;
 	case PORTC :
-		if (Value == LOW)
+		if (Value == LOW || Value == FLOAT)
 		{
 			CLR_BIT(PORTC_REG , Pin );
 		}
-		else if (Value == HIGH)
+		else if (Value == HIGH || Value == PULL_UP)
 		{
 			SET_BIT(PORTC_REG , Pin);
 		}
 		break;
 	case PORTD :
-		if (Value == LOW)
+		if (Value == LOW || Value == FLOAT)
 		{
 			CLR_BIT(PORTD_REG , Pin );
 		}
-		else if (Value == HIGH)
+		else if (Value == HIGH || Value == PULL_UP)
 		{
 			SET_BIT(PORTD_REG , Pin);
 		}

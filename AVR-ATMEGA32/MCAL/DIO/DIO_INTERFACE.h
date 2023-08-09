@@ -1,8 +1,6 @@
 #ifndef DIO_INTERFACE_H
 #define DIO_INTERFACE_H
 
-#include "../../LIB/STD_TYPES.h"
-
 enum PORT
 {
  PORTA = 0 ,
@@ -32,7 +30,9 @@ enum DIRECTION
 enum VALUE
 {
  LOW  = 0 ,
- HIGH = 1 
+ HIGH = 1 ,
+ FLOAT = 2,
+ PULL_UP = 3
 };
 
 enum PORT_VALUE
@@ -41,6 +41,7 @@ enum PORT_VALUE
 	PORT_HIGH = 0xFF ,
 	LAST_4HIGH = 0xf0
 };
+
 enum PORT_DIRECTION
 {
 	PORT_INPUT  = 0 ,
