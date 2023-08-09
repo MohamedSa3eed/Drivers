@@ -22,5 +22,4 @@
 #define KPD_ROW2_PIN PIN6
 #define KPD_ROW3_PIN PIN7
 
-
 #endif

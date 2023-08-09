@@ -1,30 +1,35 @@
 #include "../../LIB/STD_TYPES.h"
+#include "../../LIB//ERR_STATE.h"
 #include "../../MCAL/DIO/DIO_INTERFACE.h"
 #include "KPD_INTERFACE.h"
 #include "KPD_CONFIG.h"
 #include "KPD_PRIVATE.h"
 
-void KPD_Init(void)
+ES_t KPD_Init(void)
 {
+  ES_t Local_u8ErrorState = ES_NOK ;
   //initialize columns
-  DIO_SetPinDirection(KPD_PORT, KPD_COLUMN0_PIN , HIGH);
-  DIO_SetPinDirection(KPD_PORT, KPD_COLUMN1_PIN , HIGH);
-  DIO_SetPinDirection(KPD_PORT, KPD_COLUMN2_PIN , HIGH);
-  DIO_SetPinDirection(KPD_PORT, KPD_COLUMN3_PIN , HIGH);
+  Local_u8ErrorState = DIO_SetPinDirection(KPD_PORT, KPD_COLUMN0_PIN , HIGH);
+  Local_u8ErrorState = DIO_SetPinDirection(KPD_PORT, KPD_COLUMN1_PIN , HIGH);
+  Local_u8ErrorState = DIO_SetPinDirection(KPD_PORT, KPD_COLUMN2_PIN , HIGH);
+  Local_u8ErrorState = DIO_SetPinDirection(KPD_PORT, KPD_COLUMN3_PIN , HIGH);
 
   //initialize rows
-  DIO_SetPinDirection(KPD_PORT, KPD_ROW0_PIN , INPUT);
-  DIO_SetPinDirection(KPD_PORT, KPD_ROW1_PIN , INPUT);
-  DIO_SetPinDirection(KPD_PORT, KPD_ROW2_PIN , INPUT);
-  DIO_SetPinDirection(KPD_PORT, KPD_ROW3_PIN , INPUT);
+  Local_u8ErrorState = DIO_SetPinDirection(KPD_PORT, KPD_ROW0_PIN , INPUT);
+  Local_u8ErrorState = DIO_SetPinDirection(KPD_PORT, KPD_ROW1_PIN , INPUT);
+  Local_u8ErrorState = DIO_SetPinDirection(KPD_PORT, KPD_ROW2_PIN , INPUT);
+  Local_u8ErrorState = DIO_SetPinDirection(KPD_PORT, KPD_ROW3_PIN , INPUT);
 
   //make all pins high 
-  DIO_SetPortValue(KPD_PORT, PORT_HIGH);
+  Local_u8ErrorState = DIO_SetPortValue(KPD_PORT, PORT_HIGH);
+  return Local_u8ErrorState ;
 }
 
-u8 KPD_GetPressedKey(void)
+ES_t KPD_GetPressedKey(u8 *Copy_pu8Key)
 {
+    ES_t Local_u8ErrorState = ES_NOK ;
 		u8 Local_PressedKey = KPD_NOT_PRESSED ; //indication value for not pressing
+    u8 *Local_pu8Value ;
 		u8 row_index , col_index ;   //for iteration
 		u8 Local_ColPinsArr[KPD_COLUMNS]={ KPD_COLUMN0_PIN , KPD_COLUMN1_PIN , KPD_COLUMN2_PIN , KPD_COLUMN3_PIN };
 	  u8 Local_RowPinsArr[KPD_ROWS]={ KPD_ROW0_PIN , KPD_ROW1_PIN , KPD_ROW2_PIN , KPD_ROW3_PIN };
@@ -36,22 +41,23 @@ u8 KPD_GetPressedKey(void)
 			for(row_index=0 ; row_index<KPD_ROWS;row_index ++)
 			{
 				// read the value of current row (current switch)
-				u8 value = DIO_GetPinValue(KPD_PORT, Local_RowPinsArr[row_index]);
+				Local_u8ErrorState = DIO_GetPinValue(KPD_PORT, Local_RowPinsArr[row_index], Local_pu8Value);
 				// check if current switch is pressed (low value)
-				if(value == LOW)
+				if(*Local_pu8Value == LOW)
 				{
 					Local_PressedKey = Local_KPDArr[row_index][col_index] ;  //pressed value
-
 					// busy waiting until switch is released     human takes 250ms to press the switch
-					while (value == LOW )
+					while (*Local_pu8Value == LOW )
 					{
-						value =  DIO_GetPinValue(KPD_PORT, Local_RowPinsArr[row_index]);   //refreshing the value
+						Local_u8ErrorState =  DIO_GetPinValue(KPD_PORT, Local_RowPinsArr[row_index], Local_pu8Value);   //refreshing the value
 					}
-					return Local_PressedKey ;
+          *Copy_pu8Key = Local_PressedKey ;
+					return Local_u8ErrorState ;
 				}
 			}
 			// deactivate the current column with high
-			DIO_SetPinValue(KPD_PORT, Local_ColPinsArr[col_index], HIGH);
+			Local_u8ErrorState = DIO_SetPinValue(KPD_PORT, Local_ColPinsArr[col_index], HIGH);
 		}
-	return Local_PressedKey;
+  *Copy_pu8Key = Local_PressedKey ;
+  return Local_u8ErrorState ;
 }
