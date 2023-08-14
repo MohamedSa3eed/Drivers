@@ -1,14 +1,24 @@
 #ifndef STEPPER_INTERFACE_H
 #define STEPPER_INTERFACE_H
-
-/* this fuction initialize the pins connected to stepper motor */
+/**
+ * @brief Initializes the pins connected to the stepper motor.
+ *
+ * @return Error state of the stepper motor initialization.
+ */
 ES_t STEPPER_Init(void);
 
-/*  this functoin makes the stepper do the primary steps */
+/**
+ * @brief Makes the stepper motor perform full steps.
+ *
+ * @return Error state of the full step operation.
+ */
 ES_t STEPPER_FullStep(void);
 
-
-/*  this functoin makes the stepper do the primary & secondary steps */
+/**
+ * @brief Makes the stepper motor perform both primary and secondary steps.
+ *
+ * @return Error state of the half step operation.
+ */
 ES_t STEPPER_HalfStep(void);
 
 #endif

@@ -1,15 +1,18 @@
 #include "../../LIB/STD_TYPES.h"
 #include "../../LIB/BIT_MATH.h"
+#include "../../LIB/ERR_STATE.h"
 #include "GIE_CONFIG.h"
 #include "GIE_INTERFACE.h"
 #include "GIE_PRIVATE.h"
 
-void GIE_Enable()
+ES_t GIE_Enable()
 {
-    SET_BIT(SREG, SREG_EN);
+  SET_BIT(SREG, SREG_EN);
+  return ES_OK;
 }
 
-void GIE_Disable()
+ES_t GIE_Disable()
 {
-	  CLR_BIT(SREG, SREG_EN);
+	 CLR_BIT(SREG, SREG_EN);
+   return ES_OK;
 }
