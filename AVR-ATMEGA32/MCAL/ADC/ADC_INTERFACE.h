@@ -57,6 +57,14 @@
 /** @} */
 
 /**
+ * @defgroup ADC_trigger ADC Trigger Sources
+ * @{
+ */
+#define ADC_ADJUST_LEFT          1  /**< Adjust result to left */ 
+#define ADC_ADJUST_RIGHT         2  /**< Adjust result to right */ 
+/** @} */
+
+/**
  * @brief Initializes the ADC module with the specified prescaler and reference voltage.
  *
  * This function initializes the ADC module with the given prescaler and reference voltage.
@@ -64,9 +72,29 @@
  *
  * @param Copy_u8Prescaler The prescaler value. Use one of the ADC_PRESCALER_X constants.
  * @param Copy_u8Vref The reference voltage. Use one of the ADC_AREF, ADC_AVCC, or ADC_INTERNAL constants.
+ * @param Copy_u8AdjustResult The Adjust result. Use one of ADC_ADJUST_LEFT, ADC_ADJUST_RIGHT constants.
  * @return Error status. Possible values: ES_OK (0) for success, ES_OUT_OF_RANGE (1) for invalid parameter values.
  */
-ES_t ADC_init(u8 Copy_u8Prescaler, u8 Copy_u8Vref);
+ES_t ADC_init(u8 Copy_u8Prescaler, u8 Copy_u8Vref, u8 Copy_u8AdjustResult);
+
+/**
+ * @brief Enables the ADC module.
+ *
+ * This function enables the ADC module.
+ *
+ * @return Error status. Possible values: ES_OK (0) for success.
+ */
+ES_t ADC_Enable(void);
+
+/**
+ * @brief This function selects the ADC channel.
+ *
+ *the function clears the MUX[4..0] bits in the ADMUX register and then sets them to the desired channel number.
+ *
+ * @param Copy_u8Channel The ADC channel to set. Use one of the ADC_CHX constants.
+ * @return Error status. Possible values: ES_OK (0) for success, ES_OUT_OF_RANGE (1) for invalid parameter values.
+ */
+ES_t ADC_SelectChannel(u8 Copy_u8Channel);
 
 /**
  * @brief Enables the ADC conversion complete interrupt.
@@ -112,10 +140,30 @@ ES_t ADC_StartConversion(void);
  *
  * This function retrieves the result of the last ADC conversion and stores it in the provided pointer.
  *
+ * @param Copy_pu16Result Pointer to store the ADC result.
+ * @return Error status. Possible values: ES_OK (0) for success, ES_NULL_POINTER (2) if the result pointer is NULL.
+ */
+ES_t ADC_GetResult(u16 *Copy_pu16Result);
+
+/**
+ * @brief Gets the result of the last ADC conversion by polling the conversion complete flag.
+ *
+ * This function polls the conversion complete flag and retrieves the result of the last ADC conversion.
+ *
+ * @param Copy_pu16Result Pointer to store the ADC result.
+ * @return Error status. Possible values: ES_OK (0) for success, ES_NULL_POINTER (2) if the result pointer is NULL.
+ */
+ES_t ADC_GetResultPolling(u16 *Copy_pu16Result);
+
+/**
+ * @brief Gets the result of the last ADC conversion.
+ *
+ * This function retrieves the result of the last ADC conversion and stores it in the provided pointer.
+ *
  * @param Copy_pu8Result Pointer to store the ADC result.
  * @return Error status. Possible values: ES_OK (0) for success, ES_NULL_POINTER (2) if the result pointer is NULL.
  */
-ES_t ADC_GetResult(u16 *Copy_pu8Result);
+ES_t ADC_GetHighResult(u8 *Copy_pu8Result);
 
 /**
  * @brief Gets the result of the last ADC conversion by polling the conversion complete flag.
@@ -125,7 +173,7 @@ ES_t ADC_GetResult(u16 *Copy_pu8Result);
  * @param Copy_pu8Result Pointer to store the ADC result.
  * @return Error status. Possible values: ES_OK (0) for success, ES_NULL_POINTER (2) if the result pointer is NULL.
  */
-ES_t ADC_GetResultPolling(u16 *Copy_pu8Result);
+ES_t ADC_GetHighResultPolling(u8 *Copy_pu8Result);
 
 /**
  * @brief Sets the auto-trigger source for ADC conversion.

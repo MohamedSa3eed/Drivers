@@ -82,20 +82,58 @@ ES_t ADC_SetVref(u8 Copy_u8Vref)
       break;
     default:
       Local_enumErrorState = ES_OUT_OF_RANGE;
+      break;
   }
   return Local_enumErrorState;
 }
 
-ES_t ADC_init(u8 Copy_u8Prescaler, u8 Copy_u8Vref)
+ES_t ADC_AdjustResult(u8 Copy_u8AdjustResult)
 {
   ES_t Local_enumErrorState = ES_NOK;
-  CLR_BIT(ADMUX, ADMUX_ADLAR);
-  SET_BIT(ADCSRA, ADCSRA_ADEN);
+  switch (Copy_u8AdjustResult) {
+    case ADC_ADJUST_RIGHT:  
+      CLR_BIT(ADMUX, ADMUX_ADLAR);  //Rgiht adjust result  
+      Local_enumErrorState = ES_OK;
+      break;
+    case ADC_ADJUST_LEFT:  
+      SET_BIT(ADMUX, ADMUX_ADLAR);  //Rgiht adjust result  
+      Local_enumErrorState = ES_OK;
+      break;
+    default:
+      Local_enumErrorState = ES_OUT_OF_RANGE;
+      break;
+  }
+  return Local_enumErrorState ;
+}
+
+ES_t ADC_init(u8 Copy_u8Prescaler, u8 Copy_u8Vref, u8 Copy_u8AdjustResult)
+{
+  ES_t Local_enumErrorState = ES_NOK;
   Local_enumErrorState = ADC_SetVref(Copy_u8Vref);
   if (Local_enumErrorState != ES_OK)
     return Local_enumErrorState ;
+  Local_enumErrorState = ADC_AdjustResult(Copy_u8AdjustResult);
+  if (Local_enumErrorState != ES_OK)
+    return Local_enumErrorState;
   Local_enumErrorState = ADC_SetPrescaler(Copy_u8Prescaler);
+  if (Local_enumErrorState != ES_OK)
+    return Local_enumErrorState;
+  Local_enumErrorState = ADC_Enable();
   return Local_enumErrorState ;
+}
+
+ES_t ADC_SelectChannel(u8 Copy_u8Channel)
+{
+  ES_t Local_enumErrorState = ES_NOK;
+  if (Copy_u8Channel >= 0 && Copy_u8Channel < 8) {
+    ADMUX &= 0xf0 ; // clearing MUX[4..0] bits 
+    ADMUX |= Copy_u8Channel; // seting MUX bits for desired channel 
+    Local_enumErrorState = ES_OK;
+  }
+  else {
+    Local_enumErrorState = ES_OUT_OF_RANGE;
+  }
+  return Local_enumErrorState;
 }
 
 ES_t ADC_InterruptEnable(void)
@@ -128,6 +166,12 @@ void __vector_16 (void)
 {
   if (CallBackfunc != NULL) 
     CallBackfunc();
+}
+
+ES_t ADC_Enable(void)
+{
+  SET_BIT(ADCSRA, ADCSRA_ADEN); //enable ADC 
+  return ES_OK;
 }
 
 ES_t ADC_terminate(void)
@@ -207,18 +251,44 @@ ES_t ADC_DisableAutoTrigger(void)
   return ES_OK;
 }
 
-ES_t ADC_GetResult(u16 *Copy_pu8Result)
+ES_t ADC_GetResult(u16 *Copy_pu16Result)
 {
-  *Copy_pu8Result = ADCR;
+  if (GET_BIT(ADMUX, ADMUX_ADLAR)) { //adjusted left
+    *Copy_pu16Result  = ((u16)ADCL>>6);
+    *Copy_pu16Result |= ((u16)ADCH<<2);
+  }
+  else {
+  *Copy_pu16Result = ADCR;
+  }
   return ES_OK;
 }
 
-ES_t ADC_GetResultPolling(u16 *Copy_pu8Result)
+ES_t ADC_GetResultPolling(u16 *Copy_pu16Result)
 {
-  while (GET_BIT(ADCSRA, ADCSRA_ADIF)) {
-
+  while (!GET_BIT(ADCSRA, ADCSRA_ADIF)) {
+    // wait until flag is raised
   }
-  SET_BIT(ADCSRA, ADCSRA_ADIF);
-  *Copy_pu8Result = ADCR;
+  SET_BIT(ADCSRA, ADCSRA_ADIF); // clearing the flag 
+  return ADC_GetResult(Copy_pu16Result);
+}
+
+ES_t ADC_GetHighResult(u8 *Copy_pu8Result)
+{
+  if (GET_BIT(ADMUX, ADMUX_ADLAR)) { //left adjusted 
+    *Copy_pu8Result = ADCH ;
+  }
+  else {
+  *Copy_pu8Result  = (ADCL>>2);
+  *Copy_pu8Result |= (ADCH<<6);
+  }
   return ES_OK;
+}
+
+ES_t ADC_GetHighResultPolling(u8 *Copy_pu8Result)
+{
+  while (!GET_BIT(ADCSRA, ADCSRA_ADIF)) {
+    // wait until flag is raised
+  }
+  SET_BIT(ADCSRA, ADCSRA_ADIF); // clearing the flag 
+  return ADC_GetHighResult(Copy_pu8Result);
 }

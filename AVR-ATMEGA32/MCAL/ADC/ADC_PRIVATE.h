@@ -8,8 +8,8 @@
 #define ADCSRA *((volatile u8 *)0x26) 
 
 //The ADC Data Register
-//#define ADCH   *((volatile u8*)0x25)
-//#define ADCL   *((volatile u8*)0x24)
+#define ADCH   *((volatile u8*)0x25)
+#define ADCL   *((volatile u8*)0x24)
 #define ADCR   *((volatile u16 *)0x24)
 
 //Special FunctionIO Register
