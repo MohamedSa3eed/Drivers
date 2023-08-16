@@ -2,6 +2,7 @@ SRC:= $(wildcard ./*/*.c)
 SRC+= $(wildcard ./*/*/*.c) 
 PROJECT_NAME=led
 OBJ=$(SRC:.c=.o)
+DEP = $(OBJ:.o=.d)
 
 CC=avr-gcc
 OBJCPY=avr-objcopy
@@ -18,6 +19,8 @@ SIZE_FLAGS=--format=$(ARCH) --mcu=$(MCU)
 
 all : $(PROJECT_NAME).hex
 
+-include $(DEP)
+
 $(PROJECT_NAME).hex : $(PROJECT_NAME).elf
 	@$(OBJCPY) $(OBJCPY_FLAGS) $< $@
 	@$(SIZE) $(SIZE_FLAGS) $(PROJECT_NAME).elf
@@ -26,12 +29,12 @@ $(PROJECT_NAME).elf: $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -o $@
 
 %.o : %.c
-	@$(CC) $(CFLAGS) -c $< -o $@ 
+	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@ 
 
 flash : $(PROJECT_NAME).hex 
 	@$(FLASHER) $(FFLAGS)
 	@echo flashing done
 
 clean :
-	@rm $(PROJECT_NAME).hex $(PROJECT_NAME).elf $(OBJ)
+	@rm $(PROJECT_NAME).hex $(PROJECT_NAME).elf $(OBJ) $(DEP)
 	@echo every thing is clean
