@@ -19,18 +19,17 @@ void TIMER0_Init()
   #if TIMER0_MODE == TIMER_NORMAL 
     CLR_BIT(TCCR0,TCCR0_WGM00);
     CLR_BIT(TCCR0,TCCR0_WGM01);
-    CLR_BIT(TCCR0, TCCR0_COM00);
-    CLR_BIT(TCCR0, TCCR0_COM01);
   #elif TIMER0_MODE == TIMER_CTC
     CLR_BIT(TCCR0,TCCR0_WGM00);
     SET_BIT(TCCR0,TCCR0_WGM01);
-  #elif TIMER0_MODE == TIMER_PWM
+  #elif TIMER0_MODE == TIMER_PWM_PHASE_CORRECT
+    OCR0 = 0;
+    SET_BIT(TCCR0,TCCR0_WGM00);
+    CLR_BIT(TCCR0,TCCR0_WGM01);
+  #elif TIMER0_MODE == TIMER_FAST_PWM
     OCR0 = 0;
     SET_BIT(TCCR0,TCCR0_WGM00);
     SET_BIT(TCCR0,TCCR0_WGM01);
-    CLR_BIT(TCCR0,TCCR0_COM00);
-    SET_BIT(TCCR0,TCCR0_COM01);
-
   #else 
     #error "WRONG TIMER0 MODE"
   #endif 
@@ -75,25 +74,59 @@ void TIMER0_Init()
     SET_BIT(TIMSK, TIMSK_TOIE0);
   #elif TIMER0_OFI == DISABLED 
     CLR_BIT(TIMSK,TIMSK_TOIE0);
+  #else 
+    #error "WRONG OPTION FOR OVF INTERRUPT"
   #endif 
 
   #if TIMER0_OCI == ENABLED
     SET_BIT(TIMSK, TIMSK_OCIE0);
   #elif TIMER0_OCI == DISABLED 
     CLR_BIT(TIMSK,TIMSK_OCIE0);
+  #else 
+    #error "WRONG OPTION FOR CTC INTERRUPT"
   #endif 
+
+  #if TIMER0_OC0_PIN_MODE == DISCONECTED
+    CLR_BIT(TCCR0, TCCR0_COM00);
+    CLR_BIT(TCCR0, TCCR0_COM01);
+  #elif TIMER0_OC0_PIN_MODE == TOGGLE_ON_CTC 
+    SET_BIT(TCCR0, TCCR0_COM00);
+    CLR_BIT(TCCR0, TCCR0_COM01);
+  #elif TIMER0_OC0_PIN_MODE == CLEAR_ON_CTC
+    CLR_BIT(TCCR0, TCCR0_COM00);
+    SET_BIT(TCCR0, TCCR0_COM01);
+  #elif TIMER0_OC0_PIN_MODE == SET_ON_CTC
+    SET_BIT(TCCR0, TCCR0_COM00);
+    SET_BIT(TCCR0, TCCR0_COM01);
+  #else 
+    #error "WRONG OPTION FOR OC0 PIN"
+  #endif
 }
 
 ES_t TIMER0_SetPreload(u8 Copy_u8Preload)
 {
-  TCNT0 = Copy_u8Preload;
-  return ES_OK;
+  ES_t Local_enumErrorState = ES_NOK;
+  if (Copy_u8Preload < (u8)REG_MAX) {
+    TCNT0 = Copy_u8Preload;
+    Local_enumErrorState = ES_OK;
+  }
+  else {
+    Local_enumErrorState = ES_OUT_OF_RANGE;
+  }
+  return Local_enumErrorState;
 }
 
-ES_t TIMER0_SetDuty(u8 DutyCycleValue)
+ES_t TIMER0_SetDuty(u8 Copy_u8DutyCycleValue)
 {
-	OCR0 = DutyCycleValue;
-  return ES_OK;
+  ES_t Local_enumErrorState = ES_NOK;
+  if (Copy_u8DutyCycleValue <= 100){
+    OCR0 = (Copy_u8DutyCycleValue * (REG_MAX - 1) / 100);
+    Local_enumErrorState = ES_OK;
+  } 
+  else {
+    Local_enumErrorState = ES_OUT_OF_RANGE;
+  }
+  return Local_enumErrorState;
 }
 
 ES_t TIMER0_OvfInterruptEnable(void)
@@ -242,6 +275,12 @@ ES_t TIMER0_SetAsyncFunctionSingle(u32 Copy_u32Time, void (*Pfunc)(void))
   TCNT0 = preload ;
   SET_BIT(TIMSK, TIMSK_TOIE0); //enable OVF interrupt
   return ES_OK;
+}
+
+void TIMER0_Stop(void){
+  CLR_BIT(TCCR0, TCCR0_CS00);
+  CLR_BIT(TCCR0, TCCR0_CS01);
+  CLR_BIT(TCCR0, TCCR0_CS02);
 }
 
 void __vector_11 (void) __attribute__((signal));

@@ -7,7 +7,8 @@
 /*  options for the Timer 0 mode 
  *  1- TIMER_NORMAL
  *  2- TIMER_CTC
- *  3- TIMER_PWM
+ *  3- TIMER_PWM_PHASE_CORRECT
+ *  4- TIMER_FAST_PWM
  */
 #define TIMER0_MODE TIMER_NORMAL 
 
@@ -29,5 +30,15 @@
  */ 
 #define TIMER0_OCI   DISABLED
 #define TIMER0_OFI   DISABLED
+
+/* options for OC0 pin 
+ * 1- DISCONECTED
+ * 2- TOGGLE_ON_CTC             (CTC)
+ * 3- CLEAR_ON_CTC              (CTC)
+ * 4- SET_ON_CTC                (CTC)
+ * 5- CLEAR_AT_COUNTING_UP      (PWM)
+ * 6- SET_AT_COUNTING_UP        (PWM)
+ */
+#define TIMER0_OC0_PIN_MODE DISCONECTED
 
 #endif

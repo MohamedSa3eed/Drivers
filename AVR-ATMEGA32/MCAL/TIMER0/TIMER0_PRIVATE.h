@@ -36,7 +36,8 @@
 //TIMER_MODE
 #define	TIMER_NORMAL                1 
 #define	TIMER_CTC                   2 
-#define	TIMER_PWM                   3 
+#define	TIMER_PWM_PHASE_CORRECT     3 
+#define	TIMER_FAST_PWM              4 
 
 //TIMER_CLK 
 #define TIMER_NO_CLK                0
@@ -59,5 +60,13 @@
 #define TIMER_SINGLE_MODE           1
 #define TIMER_PERIODIC_MODE         2
 #define TIMER_NO_MODE               3
+
+//OC0 pin mode
+#define DISCONECTED                 1
+#define TOGGLE_ON_CTC               2
+#define CLEAR_ON_CTC                3
+#define SET_ON_CTC                  4
+#define CLEAR_AT_COUNTING_UP        3
+#define SET_AT_COUNTING_UP          4
 
 #endif

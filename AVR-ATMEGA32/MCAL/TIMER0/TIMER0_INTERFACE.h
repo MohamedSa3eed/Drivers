@@ -146,4 +146,9 @@ ES_t TIMER0_SetAsyncFunctionPeriodic(u32 Copy_u32Time, void (*Pfunc)(void));
  */
 ES_t TIMER0_SetAsyncFunctionSingle(u32 Copy_u32Time, void (*Pfunc)(void));
 
+/**
+ * @brief Halts Timer 0.
+ */
+void TIMER0_Stop(void);
+
 #endif
