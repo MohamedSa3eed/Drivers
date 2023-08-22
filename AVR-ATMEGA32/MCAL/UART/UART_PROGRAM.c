@@ -64,7 +64,7 @@ ES_t UART_Transmit9BitData(u16 Copy_u16Data)
   while (!(GET_BIT(UCSRA, UCSRA_UDRE)));
   /* Copy 9th bit to TXB8 */
   CLR_BIT(UCSRB, UCSRB_TXB8);
-  if ( Copy_u16Data & 0x0100 )
+  if (GET_BIT(Copy_u16Data, 8))
     SET_BIT(UCSRB, UCSRB_TXB8);
   /* Put data into buffer, sends the data */
   UDR = (u8)Copy_u16Data;
@@ -82,8 +82,8 @@ ES_t UART_Recieve9BitData(u16 *Copy_pu16Data)
   if (GET_BIT(UCSRA, UCSRA_FE) || GET_BIT(UCSRA, UCSRA_PE) || GET_BIT(UCSRA, UCSRA_DOR))
     return ES_NOK;
   /* Get the 9 bits and store them */
-  Local_u8ResL = UDR;
   Local_u8ResH = GET_BIT(UCSRB, UCSRB_RXB8);
+  Local_u8ResL = UDR;
   *Copy_pu16Data = ((Local_u8ResH << 8) | Local_u8ResL);
   return ES_OK;
 }
