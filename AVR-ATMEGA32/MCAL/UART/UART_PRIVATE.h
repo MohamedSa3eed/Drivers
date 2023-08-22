@@ -26,7 +26,6 @@
 #define UCSRB_RXB8  1 // Receive Data Bit 8
 #define UCSRB_TXB8  0 // Transmit Data Bit 8
 
-
 //USART Control and Status Register C
 #define UCSRC *((volatile u8 *) 0x40)
 #define UCSRC_URSEL 7 // Register Select
@@ -42,5 +41,7 @@
 #define UBRRH *((volatile u8 *) 0x40)
 #define UBRRL *((volatile u8 *) 0x29)
 #define UBRRH_URSEL 7 // Register Select
+
+#define UBRR_MAX    4095
 
 #endif // !UART_PRIVATE_H
