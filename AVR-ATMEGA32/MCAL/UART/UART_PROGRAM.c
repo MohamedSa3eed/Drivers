@@ -6,6 +6,10 @@
 #include "UART_CONFIG.h"
 #include "UART_PRIVATE.h"
 
+static void (*TransmitCompleteInterruptCallBack) (void) = NULL ;
+static void (*RecieveCompleteInterruptCallBack)  (void) = NULL ;
+static void (*DataRegisterEmptyInterruptCallBack)(void) = NULL ;
+
 ES_t UART_Init(u32 Copy_u32BaudRate, UART_DataBits_t Copy_enumDataBits, UART_Parity_t Copy_enumParity, UART_StopBit_t Copy_enumStopBits, UART_DoubleSpeed_t Copy_enumDoubleSpeed)
 {
   /* Check for range of arguments */
@@ -32,6 +36,77 @@ ES_t UART_Init(u32 Copy_u32BaudRate, UART_DataBits_t Copy_enumDataBits, UART_Par
     Copy_enumDataBits = UART_8BIT_DATA;
   }
     UCSRC = (1<<UCSRC_URSEL)|(Copy_enumStopBits<<UCSRC_USBS)|(Copy_enumDataBits<<UCSRC_UCSZ0)|(Copy_enumParity<<UCSRC_UPM0);
+  return ES_OK;
+}
+
+ES_t UART_EnableTransmitUnit(void){
+  SET_BIT(UCSRB, UCSRB_TXEN);
+  return ES_OK;
+}
+
+ES_t UART_DisableTransmitUnit(void){
+  CLR_BIT(UCSRB, UCSRB_TXEN);
+  return ES_OK;
+}
+
+ES_t UART_EnableRecieveUnit(void){
+  SET_BIT(UCSRB, UCSRB_RXEN);
+  return ES_OK;
+}
+
+ES_t UART_DisableRecieveUnit(void){
+  CLR_BIT(UCSRB, UCSRB_RXEN);
+  return ES_OK;
+}
+
+ES_t UART_SetTransmitCompleteInterruptCallBack(void(*Pfunc)(void)){
+  if (Pfunc == NULL) 
+    return ES_NULL_POINTER;
+  TransmitCompleteInterruptCallBack = Pfunc;
+  return ES_OK;
+}
+
+ES_t UART_SetRecieveCompleteInterruptCallBack(void(*Pfunc)(void)){
+  if (Pfunc == NULL) 
+    return ES_NULL_POINTER;
+  RecieveCompleteInterruptCallBack = Pfunc;
+  return ES_OK;
+}
+
+ES_t UART_SetDataRegisterEmptyInterruptCallBack(void(*Pfunc)(void)){
+  if (Pfunc == NULL) 
+    return ES_NULL_POINTER;
+  DataRegisterEmptyInterruptCallBack = Pfunc;
+  return ES_OK;
+}
+
+ES_t UART_TransmitCompleteInterruptEnable(void){
+  SET_BIT(UCSRB, UCSRB_TXCIE);
+  return ES_OK;
+}
+
+ES_t UART_RecieveCompleteInterruptEnable(void){
+  SET_BIT(UCSRB, UCSRB_RXCIE);
+  return ES_OK;
+}
+
+ES_t UART_DataRegisterEmptyInterruptEnable(void){
+  SET_BIT(UCSRB, UCSRB_UDRIE);
+  return ES_OK;
+}
+
+ES_t UART_TransmitCompleteInterruptDisable(void){
+  CLR_BIT(UCSRB, UCSRB_TXCIE);
+  return ES_OK;
+}
+
+ES_t UART_RecieveCompleteInterruptDisable(void){
+  CLR_BIT(UCSRB, UCSRB_RXCIE);
+  return ES_OK;
+}
+
+ES_t UART_DataRegisterEmptyInterruptDisable(void){
+  CLR_BIT(UCSRB, UCSRB_UDRIE);
   return ES_OK;
 }
 
@@ -86,4 +161,33 @@ ES_t UART_Recieve9BitData(u16 *Copy_pu16Data)
   Local_u8ResL = UDR;
   *Copy_pu16Data = ((Local_u8ResH << 8) | Local_u8ResL);
   return ES_OK;
+}
+
+ES_t UART_TransmitString(u8 *Copy_pu8Data){
+  if (Copy_pu8Data == NULL)
+    return ES_NULL_POINTER;
+  u8 *Local_Pu8ptr = Copy_pu8Data;
+  while (*Local_Pu8ptr != '\0') {
+    UART_Transmit8BitData(*Local_Pu8ptr);
+    Local_Pu8ptr++;
+  }
+  return ES_OK;
+}
+
+void __vector_13(void) __attribute__((signal,used));
+void __vector_13(void){
+  if(TransmitCompleteInterruptCallBack!=NULL)
+      TransmitCompleteInterruptCallBack();
+}
+
+void __vector_15(void) __attribute__((signal,used));
+void __vector_15(void){
+  if(DataRegisterEmptyInterruptCallBack!=NULL)
+      DataRegisterEmptyInterruptCallBack();
+}
+
+void __vector_14(void) __attribute__((signal,used));
+void __vector_14(void){
+  if(RecieveCompleteInterruptCallBack!=NULL)
+      RecieveCompleteInterruptCallBack();
 }
