@@ -1,0 +1,51 @@
+#ifndef SPI_CONFIG_H
+#define SPI_CONFIG_H
+
+/*
+ * Options:
+ * 1- SPI_MASTER
+ * 2- SPI_SLAVE
+ */
+#define SPI_MODE          SPI_MASTER
+
+/*
+ * Options:
+ * 1- SPI_MSB 
+ * 2- SPI_LSB
+ */
+#define SPI_DATA_ORDER    SPI_MSB
+
+/*
+ * Options:
+ * 1- SPI_LEADING_EDGE_RISING
+ * 2- SPI_LEADING_EDGE_FALLING
+ */
+#define SPI_CLK_POLARITY  SPI_LEADING_EDGE_RISING
+
+/*
+ * Options:
+ * 1- SPI_LEADING_EDGE_SAMPLE
+ * 2- SPI_LEADING_EDGE_SETUP
+ */
+#define SPI_CLK_PHASE     SPI_LEADING_EDGE_SETUP
+
+/*
+ * Options:
+ * 1- SPI_PRESCALER_2
+ * 2- SPI_PRESCALER_4 
+ * 3- SPI_PRESCALER_8
+ * 4- SPI_PRESCALER_16
+ * 5- SPI_PRESCALER_32
+ * 6- SPI_PRESCALER_64
+ * 7- SPI_PRESCALER_128
+ */
+#define SPI_PRESCALER     SPI_PRESCALER_2
+
+/*
+ * Options:
+ * 1- SPI_ENABLED
+ * 2- SPI_DISABLED
+ */
+#define SPI_INTERRUPT     SPI_DISABLED 
+
+#endif // !SPI_CONFIG_H
