@@ -163,14 +163,34 @@ ES_t UART_Recieve9BitData(u16 *Copy_pu16Data)
   return ES_OK;
 }
 
-ES_t UART_TransmitString(u8 *Copy_pu8Data){
-  if (Copy_pu8Data == NULL)
+ES_t UART_TransmitString(u8 *Copy_pu8String){
+  if (Copy_pu8String == NULL)
     return ES_NULL_POINTER;
-  u8 *Local_Pu8ptr = Copy_pu8Data;
+  u8 *Local_Pu8ptr = Copy_pu8String;
   while (*Local_Pu8ptr != '\0') {
     UART_Transmit8BitData(*Local_Pu8ptr);
     Local_Pu8ptr++;
   }
+  UART_Transmit8BitData('\0');
+  return ES_OK;
+}
+
+ES_t UART_RecieveString(u8 *Copy_pu8String){
+  ES_t Local_enumErrorState = ES_NOK;
+  u8 Local_u8Char;
+  u32 Local_u32Itrator=0;
+  if (Copy_pu8String == NULL)
+    return ES_NULL_POINTER;
+  do {
+    Local_enumErrorState = UART_Recieve8BitData(&Local_u8Char); 
+    if (Local_enumErrorState != ES_OK)
+      return Local_enumErrorState;
+    Copy_pu8String[Local_u32Itrator] = Local_u8Char;
+    Local_u32Itrator++;
+    if (Local_u8Char == '\0' || Local_u8Char == '\t' || Local_u8Char == '\n') {
+      break; 
+    }
+  }while (1);
   return ES_OK;
 }
 

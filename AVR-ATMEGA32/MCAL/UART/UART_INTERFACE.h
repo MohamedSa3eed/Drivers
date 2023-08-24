@@ -168,9 +168,17 @@ ES_t UART_Recieve9BitData(u16 *Copy_pu16Data);
 /**
  * @brief Transmit a string over UART.
  *
- * @param Copy_pu8Data Pointer to the string data to be transmitted.
- * @return ES_OK if successful, ES_NULL_POINTER if Copy_pu8Data is NULL.
+ * @param Copy_pu8String Pointer to the string data to be transmitted.
+ * @return ES_OK if successful, ES_NULL_POINTER if Copy_pu8String is NULL.
  */
-ES_t UART_TransmitString(u8 *Copy_pu8Data);
+ES_t UART_TransmitString(u8 *Copy_pu8String);
+
+/**
+ * @brief Receive a string from UART.
+ *
+ * @param Copy_pu8String Array to store the received data.
+ * @return ES_OK if successful, ES_NULL_POINTER if Copy_pu8String is NULL, ES_NOK if error occurred.
+ */
+ES_t UART_RecieveString(u8 *Copy_pu8String);
 
 #endif // !UART_INTERFACE_H
