@@ -2,7 +2,7 @@
 #define SPI_PRIVATE_H
 
 // SPI Control Register
-#define SPCR  *((volatile u8 *)0x2D)
+#define SPCR       *((volatile u8 *)0x2D)
 #define SPCR_SPIE  7     // SPI Interrupt Enable 
 #define SPCR_SPE   6     // SPI Enable
 #define SPCR_DORD  5     // Data Order
@@ -14,19 +14,19 @@
 #define SPCR_SPR0  0 
 
 // SPI Status Register
-#define SPSR  *((volatile u8 *)0x2E)
+#define SPSR       *((volatile u8 *)0x2E)
 #define SPSR_SPIF  7     // SPI Interrupt Flag
 #define SPSR_WCOL  6     // Write COLlision Flag
 #define SPSR_SPI2X 0     // Double SPI Speed Bit
 
 // SPI Data Register
-#define SPDR  *((volatile u8 *)0x2F)
+#define SPDR       *((volatile u8 *)0x2F)
 
-#define DDR_SPI (*(volatile u8*)0x37)
-#define MISO 6
-#define MOSI 5
-#define SS   4
-#define SCK  7
+#define DDR_SPI    *((volatile u8*)0x37)
+#define MISO       6
+#define MOSI       5
+#define SS         4
+#define SCK        7
 
 // options for SPI_MODE
 #define SPI_MASTER 0
