@@ -1,0 +1,36 @@
+#ifndef I2C_CONFIG_H
+#define I2C_CONFIG_H
+
+#define F_CPU 8000000UL
+
+/* Options: 0x01 -> 0x7F
+*/
+#define I2C_ADDRESS 0x01
+
+/* Options: I2C_MASTER
+            I2C_SLAVE
+*/
+#define I2C_MODE    I2C_MASTER
+
+/* Options: I2C_ACKNOWLEDGE_BIT_ENABLE
+            I2C_ACKNOWLEDGE_BIT_DISABLE
+*/
+#define I2C_ACKNOWLEDGE_BIT I2C_ACKNOWLEDGE_BIT_ENABLE
+
+/* Options: I2C_INTERRUPT_ENABLE
+            I2C_INTERRUPT_DISABLE
+*/
+#define I2C_INTERRUPT   I2C_INTERRUPT_DISABLE
+
+/* Options: I2C_PRESCALER_1
+            I2C_PRESCALER_4
+            I2C_PRESCALER_16
+            I2C_PRESCALER_64
+*/
+#define I2C_PRESCALER   I2C_PRESCALER_1
+
+/* Options: 100000UL -> 400000UL
+*/
+#define I2C_SPEED  100000UL
+
+#endif // !I2C_CONFIG_H
