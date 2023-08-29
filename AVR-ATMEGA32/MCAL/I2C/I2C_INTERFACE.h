@@ -5,6 +5,12 @@
 #include "../../LIB/BIT_MATH.h"
 #include "../../LIB/ERR_STATE.h"
 
+//------------------------------------------Needed Macros------------------------------------------------//
+//I2C Operations
+#define I2C_WRITE   0 
+#define I2C_READ    1 
+
+//------------------------------------------Function Prototypes------------------------------------------//
 
 /*
  * @breif: This function is responsible for initializing the I2C peripheral.
@@ -50,7 +56,7 @@ ES_t I2C_StopCondition(void);
  * @return: ES_OK -> if the byte is sent successfully. 
  *          ES_NOK -> if the slave address is not sent successfully.
  */
-ES_t I2C_SendData(u8 Copy_u8Data);
+ES_t I2C_MasterSendData(u8 Copy_u8Data);
 
 /*
  * @breif: This function is responsible for receiving a byte on the I2C bus.
@@ -61,7 +67,28 @@ ES_t I2C_SendData(u8 Copy_u8Data);
  *          ES_NOK -> if the slave address is not sent successfully.
  *          ES_NULL_POINTER -> if the pointer is null.
  */
-ES_t I2C_ReceiveData(u8 *Copy_pu8Data);
+ES_t I2C_MasterReceiveData(u8 *Copy_pu8Data);
+
+/*
+ * @breif: This function is responsible for sending a byte on the I2C bus.
+ *
+ * @param: u8 Copy_u8Data -> the byte to be sent.
+ *
+ * @return: ES_OK -> if the byte is sent successfully. 
+ *          ES_NOK -> if the slave address is not sent successfully.
+ */
+ES_t I2C_SlaveSendData(u8 Copy_u8Data);
+
+/*
+ * @breif: This function is responsible for receiving a byte on the I2C bus.
+ *
+ * @param: u8 *Copy_pu8Data -> pointer to the variable that will hold the received byte.
+ *
+ * @return: ES_OK -> if the byte is received successfully. 
+ *          ES_NOK -> if the slave address is not sent successfully.
+ *          ES_NULL_POINTER -> if the pointer is null.
+ */
+ES_t I2C_SlaveReceiveData(u8 *Copy_pu8Data);
 
 /*
  * @breif: This function is responsible for sending the slave address and the operation on the I2C bus.
@@ -84,5 +111,17 @@ ES_t I2C_SendSlaveAddress(u8 Copy_u8Address, u8 Copy_u8Operation);
  *          ES_NOK -> if the slave address is not sent successfully.
  */
 ES_t I2C_CheckSlaveAddress(void);
+
+/*
+ * @breif: This function is responsible for setting the call back function of I2C ISR.
+ *         The call back function will be called when the I2C ISR is fired.
+ *
+ * @param: void (*Copy_ptr)(void) -> pointer to the call back function.
+ *
+ * @return: ES_OK -> if the call back function is set successfully.
+ *          ES_NOK -> if the call back function is not set successfully.
+ *          ES_NULL_POINTER -> if the pointer is null.
+ */
+ES_t I2C_SetCallBack(void (*Copy_ptr)(void));
 
 #endif // !I2C_INTERFACE_H

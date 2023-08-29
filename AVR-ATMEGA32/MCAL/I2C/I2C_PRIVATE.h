@@ -80,4 +80,14 @@
 #define SLAVE_DATA_TRANSMITTED_NO_ACK_RECEIVED            0xC0
 #define LAST_BYTE_TRANSMITTED_ACK_RECEIVED                0xC8
 
+//---------------------------------Functions Prototypes-------------------------------
+/*
+ * @breif: This function is responsible for initializing the I2C peripheral.
+ *
+ * @param: void
+ *
+ * @return: void
+ */
+static u8 I2C_GetStatus(void);
+
 #endif // !I2C_PRIVATE_H
