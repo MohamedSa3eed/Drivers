@@ -109,6 +109,8 @@
 #define TIMER1_DISABLE_INTERRUPT                      0
 #define TIMER1_ENABLE_INTERRUPT                       1
 
+#define TIMER1_MAX                                    0xffff
+
 /*------------------Functions Prototypes for Timer1------------------*/
 
 /*

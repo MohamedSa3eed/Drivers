@@ -16,7 +16,7 @@ void TIMER1_Init(void);
 /*
  * @brief: this function sets the duty cycle of timer1.
  *
- * @param u16 Copy_u8DutyCycle: the duty cycle to be set.
+ * @param u8 Copy_u8DutyCycle: the duty cycle to be set.
  *
  * @return ES_t: Error Status.
  *               ES_OK: if no error occured.
@@ -24,7 +24,7 @@ void TIMER1_Init(void);
  *               ES_NOK: if unknown error occured.
  *
  */
-ES_t TIMER1_SetDutyCycle(u16 Copy_u16DutyCycle);
+ES_t TIMER1_SetDutyCycle(u8 Copy_u8DutyCycle);
 
 // timer1 set preloaded value
 /*
