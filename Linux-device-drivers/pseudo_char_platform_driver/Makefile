@@ -1,4 +1,4 @@
-obj-m += pcpdrv.o
+obj-m += pcpdrv.o pcpdev.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
