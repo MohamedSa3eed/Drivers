@@ -12,6 +12,21 @@ MODULE_DESCRIPTION("A simple pseudo platform driver");
 
 #define MAX_DEVICES 10
 
+struct device_config {
+  int config_num;
+};
+
+struct device_config dev_config[] = {
+    [0] = {.config_num = 100},
+    [1] = {.config_num = 200},
+};
+
+struct platform_device_id pcdevs_ids[] = {
+   [0] = {.name = "pcpdev-a", .driver_data = 0},
+   [1] = {.name = "pcpdev-b", .driver_data = 1},
+   [2] = { },
+};
+
 struct platform_device_data {
   dev_t devt;                  // device number
   char *buffer;                // buffer to store data
@@ -147,6 +162,7 @@ static int pcpdrv_remove(struct platform_device *pdev) {
 static struct platform_driver pcp_driver = {
     .probe = pcpdrv_probe,
     .remove = pcpdrv_remove,
+    .id_table = pcdevs_ids,
     .driver =
         {
             .name = "pcp-drv",
