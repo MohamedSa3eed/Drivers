@@ -34,7 +34,7 @@ struct platform_device pdev0 = {
 };
 
 struct platform_device pdev1 = {
-    .name = "pcdev-b",
+    .name = "pcpdev-b",
     .id = 1,
     .dev =
         {
