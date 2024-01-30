@@ -1,4 +1,5 @@
 #include "linux/kern_levels.h"
+#include "linux/printk.h"
 #include "platform_data.h"
 #include <linux/cdev.h>
 #include <linux/device.h>
@@ -9,6 +10,7 @@
 #include <linux/uaccess.h>
 #include <linux/mod_devicetable.h>
 #include <linux/of.h>
+#include <linux/of_device.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Sa3ed");
@@ -28,6 +30,12 @@ struct device_config dev_config[] = {
 struct platform_device_id pcdevs_ids[] = {
    [0] = {.name = "pcpdev-a", .driver_data = 0},
    [1] = {.name = "pcpdev-b", .driver_data = 1},
+   [2] = { },
+};
+
+struct of_device_id pcdevs_dt_match[] = {
+   [0] = {.compatible = "pcpdev-A", .data = (void *)&dev_config[0]},
+   [1] = {.compatible = "pcpdev-B", .data = (void *)&dev_config[1]},
    [2] = { },
 };
 
@@ -83,17 +91,58 @@ struct file_operations pcpdrv_fops = {
     .llseek = pcpdrv_llseek,
 };
 
+static struct platform_data *pcpdev_get_platdata_from_dt(struct device *dev) {
+  struct device_node *dev_node = dev->of_node;
+  struct platform_data *pdata;
+  // get platform data from device tree
+  if (!dev_node) { // the initcall is not from device tree
+    printk(KERN_ERR "%s: failed to get device node\n", __func__);
+    return NULL;
+  }
+  // allocate memory for platform data
+  pdata = devm_kzalloc(dev, sizeof(struct platform_data), GFP_KERNEL);
+  if (!pdata) {
+    printk(KERN_ERR "%s: failed to allocate memory for pdata\n", __func__);
+    return ERR_PTR(-ENOMEM);
+  }
+  // get platform data from device tree
+  if (of_property_read_u32(dev_node, "lgx,memory-size", &pdata->memorySize)) {
+    printk(KERN_ERR "%s: failed to get memory size\n", __func__);
+    return ERR_PTR(-EINVAL);
+  }
+  if (of_property_read_string(dev_node, "lgx,serial-number",
+                              (const char **)&pdata->serial_number)) {
+    printk(KERN_ERR "%s: failed to get serial number\n", __func__);
+    return ERR_PTR(-EINVAL);
+  }
+  return pdata;
+}
+
 // get called when a device is detected
 static int pcpdrv_probe(struct platform_device *pdev) {
   struct platform_device_data *pdev_data;
   struct platform_data *pdata;
   int ret;
+  int driver_data;
 
   // get the platform data
-  pdata = (struct platform_data *)dev_get_platdata(&pdev->dev);
-  if (!pdata) {
-    printk(KERN_ERR "%s: failed to get platform data\n", __func__);
+  pdata = pcpdev_get_platdata_from_dt(&pdev->dev);
+  if (IS_ERR(pdata)) {
+    printk(KERN_ERR "%s: failed to get platform data from device tree\n",
+           __func__);
     return -EINVAL;
+  }
+
+  if (!pdata) {
+    pdata = (struct platform_data *)dev_get_platdata(&pdev->dev);
+    if (!pdata) {
+      printk(KERN_ERR "%s: failed to get platform data\n", __func__);
+      return -EINVAL;
+    }
+    driver_data = pdev->id_entry->driver_data;
+  }
+  else {
+    driver_data = (int)of_device_get_match_data(&pdev->dev);
   }
 
   // allocate memory for the device
@@ -123,7 +172,7 @@ static int pcpdrv_probe(struct platform_device *pdev) {
   dev_set_drvdata(&pdev->dev, pdev_data);
 
   // get device number
-  pdev_data->devt = pcpdrv_data.devt + pdev->id;
+  pdev_data->devt = pcpdrv_data.devt + pcpdrv_data.total_devices;
 
   // initialize character device
   cdev_init(&pdev_data->cdev, &pcpdrv_fops);
@@ -135,7 +184,7 @@ static int pcpdrv_probe(struct platform_device *pdev) {
 
   // create device file
   pcpdrv_data.dev = device_create(pcpdrv_data.class, &pdev->dev,
-                                  pdev_data->devt, NULL, "pcp-dev%d", pdev->id);
+                                  pdev_data->devt, NULL, "pcp-dev%d", pcpdrv_data.total_devices);
   if (IS_ERR(pcpdrv_data.dev)) { // Check if device creation failed
     printk(KERN_ERR "%s: Device file creation failed\n", __func__);
     ret = PTR_ERR(pcpdrv_data.dev);
@@ -148,6 +197,7 @@ static int pcpdrv_probe(struct platform_device *pdev) {
   printk(KERN_INFO "%s: device_name: %s\n", __func__, pdev->name);
   printk(KERN_INFO "%s: memory size: %d\n", __func__, pdata->memorySize);
   printk(KERN_INFO "%s: serial number: %s\n", __func__, pdata->serial_number);
+  printk(KERN_INFO "%s: device config num: %d\n", __func__, dev_config[driver_data].config_num);
   return 0;
 }
 
@@ -171,6 +221,7 @@ static struct platform_driver pcp_driver = {
         {
             .name = "pcp-drv",
             .owner = THIS_MODULE,
+            .of_match_table = pcdevs_dt_match,
         },
 };
 

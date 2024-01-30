@@ -1,0 +1,12 @@
+/{
+  pcpdev-A = {
+    comptible = "pcpdev-A";
+    lgx,memory-size = <512>;
+    lgx,serial-number = "pcp-abc-123";
+  };
+  pcpdev-B = {
+    comptible = "pcpdev-B";
+    lgx,memory-size = <1024>;
+    lgx,serial-number = "pcp-abc-456";
+  };
+};
