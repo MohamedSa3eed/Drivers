@@ -1,0 +1,146 @@
+// gpio-include.dtsi
+/ {
+  gpio {
+    compatible = "org,rpi-gpio-sysfs";
+
+    gpio0: gpio0 {
+      rpi-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
+      label = "GPIO0";
+    };
+
+    gpio1: gpio1 {
+      rpi-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
+      label = "GPIO1";
+    };
+
+    gpio2: gpio2 {
+      rpi-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+      label = "GPIO2";
+    };
+
+    gpio3: gpio3 {
+      rpi-gpios = <&gpio 3 GPIO_ACTIVE_HIGH>;
+      label = "GPIO3";
+    };
+
+    gpio4: gpio4 {
+      rpi-gpios = <&gpio 4 GPIO_ACTIVE_HIGH>;
+      label = "GPIO4";
+    };
+
+    gpio5: gpio5 {
+      rpi-gpios = <&gpio 5 GPIO_ACTIVE_HIGH>;
+      label = "GPIO5";
+    };
+
+    gpio6: gpio6 {
+      rpi-gpios = <&gpio 6 GPIO_ACTIVE_HIGH>;
+      label = "GPIO6";
+    };
+
+    gpio7: gpio7 {
+      rpi-gpios = <&gpio 7 GPIO_ACTIVE_HIGH>;
+      label = "GPIO7";
+    };
+
+    gpio8: gpio8 {
+      rpi-gpios = <&gpio 8 GPIO_ACTIVE_HIGH>;
+      label = "GPIO8";
+    };
+
+    gpio9: gpio9 {
+      rpi-gpios = <&gpio 9 GPIO_ACTIVE_HIGH>;
+      label = "GPIO9";
+    };
+
+    gpio10: gpio10 {
+      rpi-gpios = <&gpio 10 GPIO_ACTIVE_HIGH>;
+      label = "GPIO10";
+    };
+
+    gpio11: gpio11 {
+      rpi-gpios = <&gpio 11 GPIO_ACTIVE_HIGH>;
+      label = "GPIO11";
+    };
+
+    gpio12: gpio12 {
+      rpi-gpios = <&gpio 12 GPIO_ACTIVE_HIGH>;
+      label = "GPIO12";
+    };
+
+    gpio13: gpio13 {
+      rpi-gpios = <&gpio 13 GPIO_ACTIVE_HIGH>;
+      label = "GPIO13";
+    };
+
+    gpio14: gpio14 {
+      rpi-gpios = <&gpio 14 GPIO_ACTIVE_HIGH>;
+      label = "GPIO14";
+    };
+
+    gpio15: gpio15 {
+      rpi-gpios = <&gpio 15 GPIO_ACTIVE_HIGH>;
+      label = "GPIO15";
+    };
+
+    gpio16: gpio16 {
+      rpi-gpios = <&gpio 16 GPIO_ACTIVE_HIGH>;
+      label = "GPIO16";
+    };
+
+    gpio17: gpio17 {
+      rpi-gpios = <&gpio 17 GPIO_ACTIVE_HIGH>;
+      label = "GPIO17";
+    };
+
+    gpio18: gpio18 {
+      rpi-gpios = <&gpio 18 GPIO_ACTIVE_HIGH>;
+      label = "GPIO18";
+    };
+
+    gpio19: gpio19 {
+      rpi-gpios = <&gpio 19 GPIO_ACTIVE_HIGH>;
+      label = "GPIO19";
+    };
+
+    gpio20: gpio20 {
+      rpi-gpios = <&gpio 20 GPIO_ACTIVE_HIGH>;
+      label = "GPIO20";
+    };
+
+    gpio21: gpio21 {
+      rpi-gpios = <&gpio 21 GPIO_ACTIVE_HIGH>;
+      label = "GPIO21";
+    };
+
+    gpio22: gpio22 {
+      rpi-gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
+      label = "GPIO22";
+    };
+
+    gpio23: gpio23 {
+      rpi-gpios = <&gpio 23 GPIO_ACTIVE_HIGH>;
+      label = "GPIO23";
+    };
+
+    gpio24: gpio24 {
+      rpi-gpios = <&gpio 24 GPIO_ACTIVE_HIGH>;
+      label = "GPIO24";
+    };
+
+    gpio25: gpio25 {
+      rpi-gpios = <&gpio 25 GPIO_ACTIVE_HIGH>;
+      label = "GPIO25";
+    };
+
+    gpio26: gpio26 {
+      rpi-gpios = <&gpio 26 GPIO_ACTIVE_HIGH>;
+      label = "GPIO26";
+    };
+
+    gpio27: gpio27 {
+      rpi-gpios = <&gpio 27 GPIO_ACTIVE_HIGH>;
+      label = "GPIO27";
+    };
+  };
+};
